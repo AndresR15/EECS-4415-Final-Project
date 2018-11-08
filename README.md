@@ -3,4 +3,4 @@ Final project for EECS 4415 Fall term 2018/19
 
 Project name WIP
 
-- [] Make a checklist
+- [ ] Make a checklist
