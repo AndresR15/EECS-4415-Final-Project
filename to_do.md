@@ -1,7 +1,7 @@
 Batch:
-	- []thumbnail analysis ()
-	- [] :) analysis title and description
-	- [] Category # to cat mapping
+	- [ ]	thumbnail analysis
+	- [ ] 	:) analysis title and description
+	- [ ] 	Category # to cat mapping
 
 
 
@@ -9,9 +9,9 @@ Batch:
 
 
 Stream:
-	- [] set up twitter stream
-	- [] clean youtube tags
-	- [] youtube -> twitter data query
+	- [ ] 	set up twitter stream
+	- [ ] 	clean youtube tags
+	- [ ] 	youtube -> twitter data query
 
 
 Data Visualization:
