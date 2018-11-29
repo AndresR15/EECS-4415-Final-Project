@@ -9,16 +9,6 @@ title = 2
 category = 4
 desc = 15
 
-'''
-analysis = TextBlob(line)
-    if analysis.sentiment.polarity > 0: 
-        answer += "positive"
-    elif analysis.sentiment.polarity == 0: 
-        answer += "neutral"
-    else: 
-        answer += "negative"
-    return answer
-'''
 numc = len(sys.argv)
 if numc < 1:
 	print("not enough parameters\n")
