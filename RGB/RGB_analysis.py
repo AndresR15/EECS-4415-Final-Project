@@ -28,11 +28,11 @@ def classify_common_color(im):
     counts, bins = scipy.histogram(vecs, len(codes))  # count occurrences
     index_max = scipy.argmax(counts)  # find most frequent
     peak = codes[index_max]
-    print(peak)
+    # print(peak)
     new_peak = (int(peak[0]), int(peak[1]), int(peak[2]))
-    print(new_peak)
+    # print(new_peak)
     closest_name = get_colour_name(new_peak)
-    print("Closest colour name:", closest_name)
+    return closest_name
 
 def closest_colour(requested_colour):
     min_colours = {}
@@ -51,6 +51,7 @@ def get_colour_name(requested_colour):
         closest_name = closest_colour(requested_colour)
     return closest_name
 
+output = open("output.txt", "w+")
 
 for i, line in enumerate(file):
     try:
@@ -62,19 +63,27 @@ for i, line in enumerate(file):
             # print(response.content)
 
             open("image.jpg", 'wb').write(response.content)
-            im = Image.open("image.jpg")
+            # im = Image.open("image.jpg")
             # print(type(im))
-            # im = cv2.imread("image.jpg")
+            im = cv2.imread("image.jpg")
             # print("Here")
-            # cropped = im[20:70,:]
-            # print("Here")
-            # cv2.imshow("cropped",cropped)
-            classify_common_color(im)
+            cropped = im[20:70,:]
+            color = classify_common_color(cropped)
+            print(color)
+            print(color == "lightgrey")
+            if color == "lightgrey":
+                output.write("Failed")
+                output.write("\n")
+            else:
+                output.write(classify_common_color(cropped))
+                output.write("\n")
 
             # for
 
         except:
             print("Image Failed, Skipped")
+            output.write("Failed")
+            output.write("\n")
     except:
         print("Failed to get data")
 
