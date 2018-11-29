@@ -42,4 +42,5 @@ with io.open(filename, newline='', encoding='utf-8') as line:
 		if row[desc] == '-1':
 			descsent[2] = descsent[2] + 1
 
+# output string is catagory name, title sentiments, then description sentiments
 print(ccat + " " + str(titlesent) + " " + str(descsent))
