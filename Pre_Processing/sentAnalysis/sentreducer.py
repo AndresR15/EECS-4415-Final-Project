@@ -17,8 +17,8 @@ if numc < 1:
 	sys.exit()
 filename = sys.argv[1]
 
-with io.open(filename, newline='', encoding='utf-8') as videos:
-	csvReader = csv.reader(videos)
+with io.open(filename, newline='', encoding='utf-8') as line:
+	csvReader = csv.reader(line)
 	for row in csvReader:
 		if ccat == '-1':
 			ccat = row[category]
