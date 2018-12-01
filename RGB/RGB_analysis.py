@@ -9,6 +9,7 @@ import requests
 import webcolors
 import codecs
 import cv2
+import time
 
 file = open(sys.argv[1], "r+", errors='ignore')
 
@@ -52,40 +53,38 @@ def get_colour_name(requested_colour):
     return closest_name
 
 output = open("output.txt", "w+")
-
 for i, line in enumerate(file):
     try:
-        imageurl = line.split(",")[11]
-        # print(imageurl)
-        try:
-            response = requests.get(imageurl, stream=True)
-            print("-----------------------------------------------------------")
-            # print(response.content)
+        imageurl = line.split(",")[1]
+        # print("|" + imageurl + "|")
+        imageurl = imageurl.replace("\n","")
+        # print("|" + imageurl + "|")
+        response = requests.get(imageurl, stream=True)
+        # print("-----------------------------------------------------------")
+        # print(response.content)
 
-            open("image.jpg", 'wb').write(response.content)
-            # im = Image.open("image.jpg")
-            # print(type(im))
-            im = cv2.imread("image.jpg")
-            # print("Here")
-            cropped = im[20:70,:]
-            color = classify_common_color(cropped)
-            print(color)
-            print(color == "lightgrey")
-            if color == "lightgrey":
-                output.write("Failed")
-                output.write("\n")
-            else:
-                output.write(classify_common_color(cropped))
-                output.write("\n")
-
-            # for
-
-        except:
-            print("Image Failed, Skipped")
-            output.write("Failed")
-            output.write("\n")
+        open("image.jpg", 'wb').write(response.content)
+        # print(response)
+        im = Image.open("image.jpg")
+        # print(type(im))
+        im = cv2.imread("image.jpg")
+        # print("Here")
+        cropped = im[20:70, :]
+        # print("Here1")
+        color = classify_common_color(cropped)
+        # print("Here3")
+        # print(color)
+        # print(color == "lightgrey")
+        if color == "lightgrey":
+            # string = str(i + 1) + ", " + "Default" + "\n"
+            string = "Default" + "\n"
+            output.write(string)
+        else:
+            string = color + "\n"
+            output.write(string)
     except:
-        print("Failed to get data")
+        string = "Failed" + "\n"
+        output.write(string)
 
 
 
