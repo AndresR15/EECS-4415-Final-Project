@@ -26,6 +26,9 @@ class tweet_listner(StreamListener):
 			# load the tweet JSON, get pure text
 			tweet_urls = ''
 
+			
+			
+
 			# if someone tweeted the url, it will appear here
 			if 'entities' in full_tweet:
 					if 'urls' in full_tweet['entities']:
