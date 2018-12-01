@@ -23,48 +23,13 @@ class tweet_listner(StreamListener):
 			print ("------------------------------------------")
 			tweet_text = full_tweet['text']
 			print (tweet_text)
-			# load the tweet JSON, get pure text
-			tweet_urls = ''
-
 			
-			
-
-			# if someone tweeted the url, it will appear here
-			if 'entities' in full_tweet:
-					if 'urls' in full_tweet['entities']:
-						if len(full_tweet['entities']['urls']) > 0 and 'expanded_url' in full_tweet['entities']['urls'][0]:
-							tweet_urls = full_tweet['entities']['urls'][0]['expanded_url']
-			# otherwise, if someone just quoted the tweet, we still consider this relevant twitter activity		
-			if 'quoted_status' in full_tweet:
-				if 'entities' in full_tweet['quoted_status']:
-					if 'urls' in full_tweet['quoted_status']['entities']:
-						if len(full_tweet['quoted_status']['entities']['urls']) > 0 and 'expanded_url' in full_tweet['quoted_status']['entities']['urls'][0]:
-							tweet_urls = full_tweet['quoted_status']['entities']['urls'][0]['expanded_url']
-				
-				#tweet_urls = full_tweet['quoted_status']['entities']['urls']['expanded_url']
-			# also, if someone has access to extended tweeting, we still consider this relevant twitter activity		
-			if 'extended_tweet' in full_tweet:
-				if 'entities' in full_tweet['extended_tweet']:
-					if 'urls' in full_tweet['extended_tweet']['entities']:
-						if len(full_tweet['extended_tweet']['entities']['urls']) > 0 and 'expanded_url' in full_tweet['extended_tweet']['entities']['urls'][0]:
-							tweet_urls = full_tweet['extended_tweet']['entities']['urls'][0]['expanded_url']
-				#tweet_urls = full_tweet['quoted_status']['entities']['urls']['expanded_url']
-			# if the tweet was retweeted
-			if 'retweeted_status' in full_tweet:
-				if 'entities' in full_tweet['retweeted_status']:
-					if 'urls' in full_tweet['retweeted_status']['entities']:
-						if len(full_tweet['retweeted_status']['entities']['urls']) > 0 and 'expanded_url' in full_tweet['extended_tweet']['entities']['urls'][0]:
-							tweet_urls = full_tweet['retweeted_status']['entities']['urls'][0]['expanded_url']
-				#tweet_urls = full_tweet['quoted_status']['entities']['urls']['expanded_url']
-				
-			
-
 			# print the tweet plus a separator
 			if tweet_urls == '':
-				print("\t")
+				#print("\t")
 				print (full_tweet)
-				print ("\n\n\n\n\n")
-			print ('___________|' + tweet_urls + '|___________\n')
+				#print ("\n\n\n\n\n")
+			#	print ('___________|' + tweet_urls + '|___________\n')
 
 			# send it to spark
 			conn.send(str.encode(tweet_text + '\n'))
@@ -78,6 +43,39 @@ class tweet_listner(StreamListener):
 		# if an error is encountered, print it to stdout
 		print(status)
 
+def get_urls(full_tweet):
+	# load the tweet JSON, get pure text
+	tweet_urls = ''
+
+	# if someone tweeted the url, it will appear here
+	if 'entities' in full_tweet:
+			if 'urls' in full_tweet['entities']:
+				if len(full_tweet['entities']['urls']) > 0 and 'expanded_url' in full_tweet['entities']['urls'][0]:
+					tweet_urls = full_tweet['entities']['urls'][0]['expanded_url']
+	# otherwise, if someone just quoted the tweet, we still consider this relevant twitter activity		
+	if 'quoted_status' in full_tweet:
+		if 'entities' in full_tweet['quoted_status']:
+			if 'urls' in full_tweet['quoted_status']['entities']:
+				if len(full_tweet['quoted_status']['entities']['urls']) > 0 and 'expanded_url' in full_tweet['quoted_status']['entities']['urls'][0]:
+					tweet_urls = full_tweet['quoted_status']['entities']['urls'][0]['expanded_url']
+		
+		#tweet_urls = full_tweet['quoted_status']['entities']['urls']['expanded_url']
+	# also, if someone has access to extended tweeting, we still consider this relevant twitter activity		
+	if 'extended_tweet' in full_tweet:
+		if 'entities' in full_tweet['extended_tweet']:
+			if 'urls' in full_tweet['extended_tweet']['entities']:
+				if len(full_tweet['extended_tweet']['entities']['urls']) > 0 and 'expanded_url' in full_tweet['extended_tweet']['entities']['urls'][0]:
+					tweet_urls = full_tweet['extended_tweet']['entities']['urls'][0]['expanded_url']
+		#tweet_urls = full_tweet['quoted_status']['entities']['urls']['expanded_url']
+
+	# if the tweet was retweeted
+	if 'retweeted_status' in full_tweet:
+		if 'entities' in full_tweet['retweeted_status']:
+			if 'urls' in full_tweet['retweeted_status']['entities']:
+				if len(full_tweet['retweeted_status']['entities']['urls']) > 0 and 'expanded_url' in full_tweet['extended_tweet']['entities']['urls'][0]:
+					tweet_urls = full_tweet['retweeted_status']['entities']['urls'][0]['expanded_url']
+		#tweet_urls = full_tweet['quoted_status']['entities']['urls']['expanded_url']
+				
 
 def connect_twitter(youtube_links):
 	# set up connection to local machine
