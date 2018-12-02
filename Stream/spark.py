@@ -61,7 +61,8 @@ dataStream = ssc.socketTextStream("twitter",9009)
 #category = words.filter()
 #hashtags = words.filter(lambda w: '#' in w)
 
-def get_url(line):
+
+def sentiment(line):
     #print(line)
     r1 = re.search('\?v=([^&]+)&*', line)
     r2 = re.search('youtu.be\/([^?]+)\?*', line)
@@ -73,7 +74,8 @@ def get_url(line):
         return r2.group(1)
     else:
         return "none"
-links = dataStream.map(get_url)
+
+links = dataStream.map(sentiment)
 words = links.map(lambda x: (x, 1))
 words = words.filter(lambda w: 'none' not in w)
 # map each hashtag to be a pair of (hashtag,1)
@@ -92,7 +94,7 @@ words_totals = words.updateStateByKey(sentiment_analysis)
 # process a single time interval
 def process_interval(time, rdd):
     # print a separator
-    cate = []
+    videos = []
     values = []
     print("----------- %s -----------" % str(time))
     try:
@@ -102,25 +104,22 @@ def process_interval(time, rdd):
         # print it nicely
         for tag in top10:
             print('{:<40} {}'.format(tag[0], tag[1]))
-            #csvWriter.writerow([tag[0], tag[1]])
+            videos.append(tag[0])
+            values.append(tag[1])
+        send_df_to_dashboard(videos,values)
         
     except:
         e = sys.exc_info()[0]
         print("Error: %s" % e)
 
 
-def send_df_to_dashboard(df):
-    # extract the hashtags from dataframe and convert them into array
-    tags = [str(t.hashtag) for t in df.select("hashtag").collect()]
-
-    # extract the counts from dataframe and convert them into array
-    tags_count = [p.hashtag_count for p in df.select("hashtag_count").collect()]
-
+def send_df_to_dashboard(video, count):
     # set up url with user's ip
-    url = 'http://'+ IP + ':5002/updateData'
-
+    url = 'http://'+ "192.168.0.14" + ':5001/updateData'
+    print(video)
+    print(count)
     # initialize and send the data through REST API
-    request_data = {'label': str(tags), 'data': str(tags_count)}
+    request_data = {'labels': str(video), 'data': str(count)}
 
     response = requests.post(url, data=request_data) 
 
