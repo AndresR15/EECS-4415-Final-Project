@@ -30,6 +30,9 @@ from textblob import TextBlob
 import re
 import csv
 
+#IP of user outside of docker
+IP = '192.168.0.27'
+
 
 # create spark configuration
 conf = SparkConf()
@@ -115,7 +118,7 @@ def process_interval(time, rdd):
 
 def send_df_to_dashboard(video, count):
     # set up url with user's ip
-    url = 'http://'+ "192.168.0.14" + ':5001/updateData'
+    url = 'http://'+ IP + ':5001/updateData'
     print(video)
     print(count)
     # initialize and send the data through REST API
