@@ -61,18 +61,21 @@ dataStream = ssc.socketTextStream("twitter",9009)
 #category = words.filter()
 #hashtags = words.filter(lambda w: '#' in w)
 
+
 def sentiment(line):
     #print(line)
     r1 = re.search('\?v=([^&]+)&*', line)
+    r2 = re.search('youtu.be\/([^?]+)\?*', line)
     #re.search('\?v=([^&]+)&*', request.url)
     #time = (datetime.datetime.now() + datetime.timedelta(minutes=15) % datetime.timedelta(minutes=15))
     if r1:
         return r1.group(1)
-
+    elif r2:
+        return r2.group(1)
     else:
-        return "none!"
+        return "none"
 
-links = dataStream.map(ping_url)
+links = dataStream.map(sentiment)
 words = links.map(lambda x: (x, 1))
 words = words.filter(lambda w: 'none' not in w)
 # map each hashtag to be a pair of (hashtag,1)
