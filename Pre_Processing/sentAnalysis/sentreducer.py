@@ -2,7 +2,6 @@ import requests
 import csv
 import io
 import sys
-from textblob import TextBlob
 
 id = 3
 title = 1
@@ -23,7 +22,7 @@ with io.open(filename, newline='', encoding='utf-8') as line:
 		if ccat == '-1':
 			ccat = row[category]
 		if ccat != row[category]:
-			print(ccat + " " + str(titlesent) + " " + str(descsent))
+			print(ccat + ":" + str(titlesent) + ":" + str(descsent))
 			ccat = row[category]
 			titlesent = [0,0,0]
 			descsent = [0,0,0]
@@ -43,4 +42,4 @@ with io.open(filename, newline='', encoding='utf-8') as line:
 			descsent[2] = descsent[2] + 1
 
 # output string is catagory name, title sentiments, then description sentiments
-print(ccat + " " + str(titlesent) + " " + str(descsent))
+print(ccat + ":" + str(titlesent) + ":" + str(descsent))
