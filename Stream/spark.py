@@ -61,7 +61,7 @@ dataStream = ssc.socketTextStream("twitter",9009)
 #category = words.filter()
 #hashtags = words.filter(lambda w: '#' in w)
 
-def ping_url(line):
+def get_url(line):
     #print(line)
     r1 = re.search('\?v=([^&]+)&*', line)
     r2 = re.search('youtu.be\/([^?]+)\?*', line)
@@ -73,7 +73,7 @@ def ping_url(line):
         return r2.group(1)
     else:
         return "none"
-links = dataStream.map(ping_url)
+links = dataStream.map(get_url)
 words = links.map(lambda x: (x, 1))
 words = words.filter(lambda w: 'none' not in w)
 # map each hashtag to be a pair of (hashtag,1)
