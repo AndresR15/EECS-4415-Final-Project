@@ -109,6 +109,7 @@ def process_interval(time, rdd):
             print('{:<40} {}'.format(tag[0], tag[1]))
             videos.append(tag[0])
             values.append(tag[1])
+        
         send_df_to_dashboard(videos,values)
         
     except:
