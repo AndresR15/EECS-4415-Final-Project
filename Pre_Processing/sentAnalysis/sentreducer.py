@@ -8,8 +8,8 @@ title = 1
 category = 0
 desc = 2
 ccat = '-1'
-titlesent = [0,0,0]
-descsent = [0,0,0]
+titlesent = [0,0,0,0]
+descsent = [0,0,0,0]
 numc = len(sys.argv)
 if numc < 1:
 	print("not enough parameters\n")
@@ -22,10 +22,12 @@ with io.open(filename, newline='', encoding='utf-8') as line:
 		if ccat == '-1':
 			ccat = row[category]
 		if ccat != row[category]:
+			titlesent[3] = titlesent[0] - titlesent[2];
+			descsent[3] = descsent[0] - descsent[2];
 			print(ccat + ":" + str(titlesent) + ":" + str(descsent))
 			ccat = row[category]
-			titlesent = [0,0,0]
-			descsent = [0,0,0]
+			titlesent = [0,0,0,0]
+			descsent = [0,0,0,0]
 		
 		if row[title] == '1':
 			titlesent[0] = titlesent[0] + 1
@@ -42,4 +44,6 @@ with io.open(filename, newline='', encoding='utf-8') as line:
 			descsent[2] = descsent[2] + 1
 
 # output string is catagory name, title sentiments, then description sentiments
+titlesent[3] = titlesent[0] - titlesent[2];
+descsent[3] = descsent[0] - descsent[2];
 print(ccat + ":" + str(titlesent) + ":" + str(descsent))
