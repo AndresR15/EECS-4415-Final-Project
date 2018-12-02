@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8"/>
+	<title>Canada Sentiment Analysis</title>
+	<script type="text/javascript" src="js/Chart.bundle.js"></script>
+
+
+	</head>
+	
+	<body>
+	<h2>Canada Sentiment Analysis</h2>
+	<div>
+		<canvas id="chart" style="display: block; width: 800px; height: 800px;"></canvas>
+		<script>
+		var ctx = document.getElementById("chart")
+		var myChart = new Chart(ctx, {
+    	type: 'radar',
+    	data: {
+        	labels: ['Film & Animation', 'Autos & Vehicles', 'Music', 'Pets & Animals', 'Sports', 'Travel & Events', 'Gaming', 'People & Blogs', 'Comedy', 'Entertainment', 'News & Politics', 'Howto & Style', 'Education', 'Science & Technology', 'Nonprofits & Activism', 'Movies', 'Shows', 'Youtube Movie Trailers'],
+        	datasets: [{
+				backgroundColor: 'rgba(54, 162, 235, 0.2)',
+				borderColor: 'rgba(54, 162, 235, 1)',
+            	data: [517,93,1420,91,847,167,360,915,696,3328,1057,778,216,220,12,6,5,0],
+				label: 'Positive'},
+				{
+				backgroundColor: 'rgba(128, 128, 128, 0.2)',
+				borderColor: 'rgba(128,128,128,1)',
+            	data: [1198,224,1960,219,1173,160,619,2719,2482,8492,2480,980,585,773,58,0,109,0],
+				label: 'Neutral'
+				},
+				{
+				backgroundColor: 'rgba(255, 99, 132, 0.2)',
+				borderColor: 'rgba(255,99,132,1)',
+            	data: [345,36,351,59,767,65,365,471,595,1631,622,249,190,162,4,0,10,0],
+				label: 'Negative'
+				},
+				{
+				backgroundColor: 'rgba(0, 255, 0, 0.2)',
+				borderColor: 'rgba(0,255,0,1)',
+            	data: [172,57,1069,32,80,102,-5,444,101,1697,435,529,26,58,8,6,-5,0],
+				label: 'Average'
+				}
+			]
+    	},
+    	options: {
+				maintainAspectRatio: false,
+			responsive: true,
+        	scale: {
+	            display: true,
+				pointLabels: { fontSize:16 }
+        	},
+			legend: {
+				labels: { fontSize:16 }
+			},
+    	}
+   });
+	</script>
+	</div>
+	</body>

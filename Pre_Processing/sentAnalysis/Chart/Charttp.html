@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8"/>
+	<title>Canada Sentiment Analysis</title>
+	<script type="text/javascript" src="js/Chart.bundle.js"></script>
+
+
+	</head>
+	
+	<body>
+	<h2>Canada Sentiment Analysis</h2>
+	<div>
+		<canvas id="chart" style="display: block; width: 800px; height: 800px;"></canvas>
+		<script>
+		var ctx = document.getElementById("chart")
+		var myChart = new Chart(ctx, {
+    	type: 'radar',
+    	data: {
+        	labels: ['Film & Animation', 'Autos & Vehicles', 'Music', 'Pets & Animals', 'Sports', 'Travel & Events', 'Gaming', 'People & Blogs', 'Comedy', 'Entertainment', 'News & Politics', 'Howto & Style', 'Education', 'Science & Technology', 'Nonprofits & Activism', 'Movies', 'Shows', 'Youtube Movie Trailers'],
+        	datasets: [{
+				backgroundColor: 'rgba(54, 162, 235, 0.2)',
+				borderColor: 'rgba(54, 162, 235, 1)',
+            	data: [0.2509,0.2634,0.3805,0.2466,0.3039,0.4260,0.2678,0.2228,0.1844,0.2474,0.2541,0.3876,0.2179,0.1904,0.1621,1.0,0.0403,0.0],
+				label: 'Positive'},
+				{
+				backgroundColor: 'rgba(128, 128, 128, 0.2)',
+				borderColor: 'rgba(128,128,128,1)',
+            	data: [0.5815,0.6345,0.5253,0.5934,0.4208,0.4081,0.4605,0.6623,0.6578,0.6313,0.5962,0.4882,0.5903,0.6692,0.7837,0.0,0.8790,0.0],
+				label: 'Neutral'
+				},
+				{
+				backgroundColor: 'rgba(255, 99, 132, 0.2)',
+				borderColor: 'rgba(255,99,132,1)',
+            	data: [0.1674,0.1019,0.0940,0.1598,0.2752,0.1658,0.2715,0.1147,0.1576,0.1212,0.1495,0.1240,0.1917,0.1402,0.0540,0.0,0.0806,0.0],
+				label: 'Negative'
+				},
+				{
+				backgroundColor: 'rgba(0, 255, 0, 0.2)',
+				borderColor: 'rgba(0,255,0,1)',
+            	data: [0.0834,0.1614,0.2865,0.0867,0.0287,0.2602,-0.0037,0.1081,0.0267,0.1261,0.1045,0.2635,0.0262,0.0502,0.1081,1.0,-0.0403,0.0],
+				label: 'Average'
+				}
+			]
+    	},
+    	options: {
+				maintainAspectRatio: false,
+			responsive: true,
+        	scale: {
+	            display: true,
+				pointLabels: { fontSize:16 }
+        	},
+			legend: {
+				labels: { fontSize:16 }
+			},
+    	}
+   });
+	</script>
+	</div>
+	</body>
