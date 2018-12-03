@@ -9,7 +9,7 @@ catname = 1;
 catdict = {}
 
 numc = len(sys.argv)
-if numc < 2:
+if numc < 3:
 	print("not enough parameters\n")
 	sys.exit()
 filename = sys.argv[1]
@@ -23,10 +23,8 @@ with io.open(catfilename, newline='', encoding='utf-8') as categories:
 		
 with io.open(filename, newline='', encoding='utf-8') as data:
 	for row in data:
-		test = row.split()
+		test = row.split(":")
 		outstr = catdict[test[category]]
-		if len(test[0]) == 1:
-			outstr = outstr + " "
-		for i in range(2, len(row) - 1):
-			outstr = outstr + row[i]
+		for i in range(1, len(test)):
+			outstr = outstr + ":" + test[i].replace("\n","")
 		print(outstr)

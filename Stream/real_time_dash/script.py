@@ -30,7 +30,7 @@ def update_data():
 	global labels, values
 	if not request.form or 'data' not in request.form:
 		return "error",400
-	labels = ast.literal_eval(request.form['label'])
+	labels = ast.literal_eval(request.form['labels'])
 	values = ast.literal_eval(request.form['data'])
 	print("labels received: " + str(labels))
 	print("data received: " + str(values))
@@ -39,7 +39,7 @@ def update_data():
 if __name__ == "__main__":
 	LOCAL_IP = socket.gethostbyname(socket.gethostname()) 
 	app.debug = True
-	app.run(host=LOCAL_IP, port=5002)
+	app.run(host=LOCAL_IP, port=5001)
 
 
 

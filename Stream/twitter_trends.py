@@ -18,18 +18,14 @@ class tweet_listner(StreamListener):
 
 	def on_data(self, data):
 		try:
-			
-
-			# load the tweet JSON, get pure text
 			full_tweet = json.loads(data)
-			tweet_text = full_tweet['text']
 
-			# print the tweet plus a separator
 			print ("------------------------------------------")
-			print (tweet_text + '\n')
-
-			# send it to spark
-			conn.send(str.encode(tweet_text + '\n'))
+			tweet_text = full_tweet['text']
+			tweet_urls = get_urls(full_tweet)
+			
+			for url in tweet_urls:
+				conn.send(str.encode(url + '\n'))
 		except:
 			# print error
 			e = sys.exc_info()[0]
@@ -40,8 +36,41 @@ class tweet_listner(StreamListener):
 		# if an error is encountered, print it to stdout
 		print(status)
 
+def get_urls(full_tweet):
+	# load the tweet JSON, get pure text
+	tweet_urls = set()
+	#print("\n\n\n\n\n" + str(full_tweet) + "\n\n\n\n\n")
+	try:
+		for url in full_tweet['entities']['urls']:
+			tweet_urls.add(url['expanded_url'])
+	except:
+		print("not a raw tweet")
+	try:
+		for url in full_tweet['quoted_status']['entities']['urls']:
+			tweet_urls.add(url['expanded_url'])
+	except:
+		print("not a quoted tweet")
+	try:
+		for url in full_tweet['extended_tweet']['entities']['urls']:
+			tweet_urls.add(url['expanded_url'])
+	except:
+		print("not an extended tweet")	
+	try:
+		for url in full_tweet['retweeted_status']['entities']['urls']:
+			tweet_urls.add(url['expanded_url'])
+	except:
+		print("not a retweet")	
+	try:
+		for url in full_tweet['retweeted_status']['extended_tweet']['entities']['urls']:
+			tweet_urls.add(url['expanded_url'])
+	except:
+		print("not an extended retweet")
+				
+	print(str(tweet_urls))
+	return tweet_urls
 
-def connect_twitter(youtube_link):
+
+def connect_twitter(youtube_links):
 	# set up connection to local machine
 	global conn
 	#get local port
@@ -70,11 +99,11 @@ def connect_twitter(youtube_link):
 	#language = ['en']
 	try:
 		# only shows tweets containing the specified hashtags 
-		stream.filter(track=youtube_link)
+		stream.filter(track=youtube_links)
 	except KeyboardInterrupt:
 		s.shutdown(socket.SHUT_RD)
 
 if __name__ == "__main__": 
-	test_url = ["www.youtube.com/watch?v=wXlBep9uFjI", 'http://youtu.be/wXlBep9uFjI?a', "youtu.be/wXlBep9uFjI"]
+	test_url = ["gl1aHhXnN1k"]
 	connect_twitter(test_url)	
 

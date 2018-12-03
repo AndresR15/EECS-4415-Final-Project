@@ -7,6 +7,8 @@ import YT_scrapers.Scrapper2 as scraper
 
 def main():
 	# when a new trending video is added, start a twitter stream to see how many tweets contain its url
+		#add new url and restart
 
+	# Start up spark, send output to 
 
 if __name__ == "__main__": main()

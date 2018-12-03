@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8"/>
+	<title>Canada Sentiment Analysis</title>
+	<script type="text/javascript" src="js/Chart.bundle.js"></script>
+
+
+	</head>
+	
+	<body>
+	<h2>Canada Sentiment Analysis</h2>
+	<div>
+		<canvas id="chart" style="display: block; width: 800px; height: 800px;"></canvas>
+		<script>
+		var ctx = document.getElementById("chart")
+		var myChart = new Chart(ctx, {
+    	type: 'radar',
+    	data: {
+        	labels: ['Film & Animation', 'Autos & Vehicles', 'Music', 'Pets & Animals', 'Sports', 'Travel & Events', 'Gaming', 'People & Blogs', 'Comedy', 'Entertainment', 'News & Politics', 'Howto & Style', 'Education', 'Science & Technology', 'Nonprofits & Activism', 'Movies', 'Shows', 'Youtube Movie Trailers'],
+        	datasets: [{
+				backgroundColor: 'rgba(54, 162, 235, 0.2)',
+				borderColor: 'rgba(54, 162, 235, 1)',
+            	data: [0.7388,0.8130,0.6783,0.9512,0.7373,0.9285,0.7038,0.5827,0.6305,0.7044,0.6479,0.8963,0.8446,0.7419,0.4189,1.0,0.8790,0],
+				label: 'Positive'},
+				{
+				backgroundColor: 'rgba(128, 128, 128, 0.2)',
+				borderColor: 'rgba(128,128,128,1)',
+            	data: [0.1757,0.0991,0.2299,0.0271,0.1783,0.0663,0.1406,0.3425,0.2517,0.2117,0.2486,0.0622,0.0756,0.0900,0.2567,0,0.0725,0],
+				label: 'Neutral'
+				},
+				{
+				backgroundColor: 'rgba(255, 99, 132, 0.2)',
+				borderColor: 'rgba(255,99,132,1)',
+            	data: [0.0854,0.0878,0.0916,0.0216,0.0843,0.0051,0.1555,0.0747,0.1176,0.0837,0.1033,0.0413,0.0797,0.1679,0.3243,0,0.0483,0],
+				label: 'Negative'
+				},
+				{
+				backgroundColor: 'rgba(0, 255, 0, 0.2)',
+				borderColor: 'rgba(0,255,0,1)',
+            	data: [0.6533,0.7252,0.5867,0.9295,0.6530,0.9234,0.5483,0.5079,0.5128,0.6206,0.5446,0.8550,0.7648,0.5740,0.0945,1.0,0.8306,0],
+				label: 'Average'
+				}
+			]
+    	},
+    	options: {
+				maintainAspectRatio: false,
+			responsive: true,
+        	scale: {
+	            display: true,
+				pointLabels: { fontSize:16 }
+        	},
+			legend: {
+				labels: { fontSize:16 }
+			},
+    	}
+   });
+	</script>
+	</div>
+	</body>
