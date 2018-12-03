@@ -25,8 +25,6 @@ import csv
 
 #IP of user outside of docker
 IP = '192.168.0.14'
-time = ""
-amoun = 0
 
 # create spark configuration
 conf = SparkConf()
@@ -94,7 +92,7 @@ def process_interval(time, rdd):
     # print a separator
     videos = {}
     times = []
-
+    amoun = 0
     print("----------- %s -----------" % str(time))
     try:
         # sort counts (desc) in this time instance and take top 10
@@ -105,15 +103,12 @@ def process_interval(time, rdd):
 
         for tag in top10:
             print('{:<40} {}'.format(tag[0], tag[1]))
-            print(time)
-            print(amoun)
-            if not tag[0].split(" ")[0] in times:
+            if tag[0].split(" ")[0] not in times:
                 for key in videos:
                     while len(videos[key]) < amoun:
                         videos[key].append(0)
                 amoun += 1
-                time = tag[0].split(" ")[0]
-                times.append(time)
+                times.append(tag[0].split(" ")[0])
             if tag[0].split(" ")[1] in videos:
                 videos[tag[0].split(" ")[1]].append(tag[1])
             else:
