@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8"/>
+	<title>Line graph</title>
+	<script type="text/javascript" src="static/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="static/Chart.js"></script>
+
+
+	</head>
+	
+	<body>
+	<h2># of tweets per video</h2>
+	<div>
+		<canvas id="chart" width="200" height="100"></canvas>
+		<script>
+		var ctx = document.getElementById("chart")
+		var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'My First dataset',
+                borderWidth: 1,
+                borderColor: "#ff0000",
+                data: [],
+                fill: false,
+            },{
+                label: 'My First dataset',
+                borderWidth: 1,
+                borderColor: "#0000ff",
+                data: [],
+                fill: false,
+            },{
+                label: 'My First dataset',
+                borderWidth: 1,
+                borderColor: "#0000ff",
+                data: [],
+                fill: false,
+            }],
+        },
+   });
+   var src_Labels = [];
+   var src_Data = {};
+   var datasets = [];
+   var count = 0;
+   setInterval(function(){
+    	$.getJSON('/refreshData', {
+    	}, function(data) {
+        	src_Labels = data.sLabel;
+        	src_Data =  data.sData;
+    	});
+        var labels = [];
+        var lines = [];
+        var datas = [];
+        //console.log(src_Data);
+    	myChart.data.labels = src_Labels;
+        var count2 = 0;
+        var index = 0;
+        for(x in src_Data){
+            count2++;
+            console.log(count2 + " " + x);
+            if(count2 > count){
+                var dataset = {
+                    label: x,
+                    borderColor: '#'+(Math.random()*0xFFFFFF<<0).toString(16),
+                    data: src_Data[x],
+                };
+                datasets.push(dataset);
+            }else if(count > 0){
+                myChart.data.datasets[index].label = x;
+                myChart.data.datasets[index].data = src_Data[x];
+            }
+            index++;
+            
+        }
+        count = count2;
+
+        myChart.data.datasets = datasets;
+        //myChart.data.datasets[0].label = lines[0];
+    	//myChart.data.datasets[0].data = datas[0];
+        //myChart.data.datasets[1].label = lines[1];
+        //myChart.data.datasets[1].data = datas[1];
+    	myChart.update();
+   },1000);
+   
+	</script>
+	</div>
+	</body>
