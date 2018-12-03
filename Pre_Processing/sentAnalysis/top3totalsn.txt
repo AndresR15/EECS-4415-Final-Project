@@ -1,0 +1,15 @@
+CA:People & Blogs:4105
+CA:News & Politics:4159
+CA:Entertainment:13451
+DE:News & Politics:2935
+DE:People & Blogs:5988
+DE:Entertainment:15292
+FR:Comedy:4343
+FR:People & Blogs:5719
+FR:Entertainment:9819
+GB:People & Blogs:2926
+GB:Entertainment:9124
+GB:Music:13754
+US:Howto & Style:4146
+US:Music:6472
+US:Entertainment:9964
