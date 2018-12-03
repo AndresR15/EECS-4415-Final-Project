@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8"/>
+	<title>Top 3 Youtube Trending Categories for each Country</title>
+	<script type='text/javascript' src='https://www.amcharts.com/lib/4/core.js'></script>
+	<script type='text/javascript' src='https://www.amcharts.com/lib/4/charts.js'></script>
+	<script type='text/javascript' src='https://www.amcharts.com/lib/4/maps.js'></script>
+	<script type='text/javascript' src='https://www.amcharts.com/lib/4/geodata/continentsLow.js'></script>
+	<script type='text/javascript' src='https://www.amcharts.com/lib/4/themes/animated.js'></script>
+	<style>
+      #chart {
+  width: 100%;
+  height: 500px;
+}
+      </style>
+
+
+	</head>
+	
+	<body>
+	<h2>Top 3 Youtube Trending Categories for each Country</h2>
+	<div id='chart'>
+		<script>
+					
+					  // Themes begin
+		// Using default theme
+		am4core.useTheme(am4themes_animated);
+		// Themes end
+
+		// Create map instance
+		var chart = am4core.create("chart", am4maps.MapChart);
+
+		// Set map definition
+		chart.geodata = am4geodata_continentsLow;
+
+		// Set projection
+		chart.projection = new am4maps.projections.Miller();
+
+		// Create map polygon series
+		var polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+		polygonSeries.include = ["North America", "Europe"];
+		polygonSeries.useGeodata = true;
+
+		// Create an image series that will hold pie charts
+		var pieSeries = chart.series.push(new am4maps.MapImageSeries());
+		var pieTemplate = pieSeries.mapImages.template;
+		pieTemplate.propertyFields.latitude = "latitude";
+		pieTemplate.propertyFields.longitude = "longitude";
+
+		var pieChartTemplate = pieTemplate.createChild(am4charts.PieChart);
+		pieChartTemplate.adapter.add("data", function(data, target) {
+		  if (target.dataItem) {
+			return target.dataItem.dataContext.pieData;
+		  }
+		  else {
+			return [];
+		  }
+		});
+		pieChartTemplate.propertyFields.width = "width";
+		pieChartTemplate.propertyFields.height = "height";
+		pieChartTemplate.horizontalCenter = "middle";
+		pieChartTemplate.verticalCenter = "middle";
+
+		var pieTitle = pieChartTemplate.titles.create();
+		pieTitle.text = "{title}";
+
+		var pieSeriesTemplate = pieChartTemplate.series.push(new am4charts.PieSeries);
+		pieSeriesTemplate.dataFields.category = "category";
+		pieSeriesTemplate.dataFields.value = "value";
+		pieSeriesTemplate.labels.template.disabled = true;
+		pieSeriesTemplate.ticks.template.disabled = true;
+
+		pieSeries.data = [{
+		  "title": "Canada",
+		  "latitude": 56.130367,
+		  "longitude": -106.346771,
+		  "width": 100,
+		  "height": 100,
+		  "pieData": [{
+			"category": "Entertainment",
+			"value": 13451
+		  }, {
+			"category": "News & Politics",
+			"value": 4159
+		  }, {
+			"category": "People & Blogs",
+			"value": 4105
+		  }]
+		}, {
+		  "title": "United Kingdom",
+		  "latitude": 55.378052,
+		  "longitude": -3.435973,
+		  "width": 50,
+		  "height": 50,
+		  "pieData": [{
+			"category": "Music",
+			"value": 13754
+		  }, {
+			"category": "Entertainment",
+			"value": 9124
+		  }, {
+			"category": "People & Blogs",
+			"value": 2926
+		  }]
+		}, {
+		  "title": "Germany",
+		  "latitude": 51.165691,
+		  "longitude": 10.451526,
+		  "width": 50,
+		  "height": 50,
+		  "pieData": [{
+			"category": "Entertainment",
+			"value": 15292
+		  }, {
+			"category": "People & Blogs",
+			"value": 5988
+		  }, {
+			"category": "News & Politics",
+			"value": 2935
+		  }]
+		}, {
+		  "title": "France",
+		  "latitude": 46.227638,
+		  "longitude": 2.213749,
+		  "width": 50,
+		  "height": 50,
+		  "pieData": [{
+			"category": "Entertainment",
+			"value": 9819
+		  }, {
+			"category": "People & Blogs",
+			"value": 5719
+		  }, {
+			"category": "Comedy",
+			"value": 4343
+		  }]
+		}, {
+		  "title": "United States",
+		  "latitude": 37.090240,
+		  "longitude": -95.712891,
+		  "width": 100,
+		  "height": 100,
+		  "pieData": [{
+			"category": "Entertainment",
+			"value": 9964
+		  }, {
+			"category": "Music",
+			"value": 6472
+		  }, {
+			"category": "Howto & Style",
+			"value": 4146
+		  }]
+		}];            
+		</script>
+	</div>
+	</body>
