@@ -3,22 +3,16 @@
     on port 9009 that provides a stream of raw tweets text. That stream is
     meant to be read and processed here, where top trending hashtags are
     identified. Both apps are designed to be run in Docker containers.
-
     To execute this in a Docker container, do:
     
         docker run -it -v $PWD:/app --link twitter:twitter eecsyorku/eecs4415
-
     and inside the docker:
-
         spark-submit spark_app.py
-
     For more instructions on how to run, refer to final tutorial 8 slides.
-
     Made for: EECS 4415 - Big Data Systems (York University EECS dept.)
     Modified by: Tilemachos Pechlivanoglou
     Based on: https://www.toptal.com/apache/apache-spark-streaming-twitter
     Original author: Hanee' Medhat
-
 """
 
 from pyspark import SparkConf,SparkContext
@@ -26,13 +20,13 @@ from pyspark.streaming import StreamingContext
 from pyspark.sql import Row,SQLContext
 import sys
 import requests, datetime
-from textblob import TextBlob
 import re
 import csv
 
 #IP of user outside of docker
-IP = '192.168.0.27'
-
+IP = '192.168.0.14'
+time = ""
+amoun = 0
 
 # create spark configuration
 conf = SparkConf()
@@ -64,17 +58,18 @@ dataStream = ssc.socketTextStream("twitter",9009)
 #category = words.filter()
 #hashtags = words.filter(lambda w: '#' in w)
 
-
 def sentiment(line):
     #print(line)
     r1 = re.search('\?v=([^&]+)&*', line)
     r2 = re.search('youtu.be\/([^?]+)\?*', line)
     #re.search('\?v=([^&]+)&*', request.url)
-    #time = (datetime.datetime.now() + datetime.timedelta(minutes=15) % datetime.timedelta(minutes=15))
+    time = datetime.datetime.now()
+    time = time - datetime.timedelta(minutes=time.minute % 1,seconds=time.second,microseconds=time.microsecond)
+    time = time.strftime("%Y-%m-%d-%H-%M-%S")
     if r1:
-        return r1.group(1)
+        return str(time) + " " + r1.group(1) 
     elif r2:
-        return r2.group(1)
+        return str(time) + " " + r2.group(1) 
     else:
         return "none"
 
@@ -97,20 +92,35 @@ words_totals = words.updateStateByKey(sentiment_analysis)
 # process a single time interval
 def process_interval(time, rdd):
     # print a separator
-    videos = []
-    values = []
+    videos = {}
+    times = []
+
     print("----------- %s -----------" % str(time))
     try:
         # sort counts (desc) in this time instance and take top 10
-        sorted_rdd = rdd.sortBy(lambda x:x[1], False)
+        sorted_rdd = rdd.sortBy(lambda x:x[0], False)
         top10 = sorted_rdd.collect()
         # print it nicely
+        
+
         for tag in top10:
             print('{:<40} {}'.format(tag[0], tag[1]))
-            videos.append(tag[0])
-            values.append(tag[1])
+            print(time)
+            print(amoun)
+            if not tag[0].split(" ")[0] in times:
+                for key in videos:
+                    while len(videos[key]) < amoun:
+                        videos[key].append(0)
+                amoun += 1
+                time = tag[0].split(" ")[0]
+                times.append(time)
+            if tag[0].split(" ")[1] in videos:
+                videos[tag[0].split(" ")[1]].append(tag[1])
+            else:
+                videos[tag[0].split(" ")[1]] = [tag[1]]
+            
         
-        send_df_to_dashboard(videos,values)
+        send_df_to_dashboard(times,videos)
         
     except:
         e = sys.exc_info()[0]
